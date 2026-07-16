@@ -32,12 +32,13 @@
     height: 100%;
 }
 
+
 #accordion {
     margin-top: 2rem;
     margin-left: 1rem;
     margin-bottom: 4rem;
-    float: left;
     border-radius: .5rem;
+    float: left;
     background-color: rgba(0, 0, 0, 0.6);
     text-align: center;
     position: -webkit-sticky;
@@ -64,10 +65,24 @@
     margin: .5rem;
 }
 
-.btn-filtri {
+@media(min-width: 576px){
+    .btn-filtri {
     background-color: transparent;
     border: none;
     color: white;
+    width: 100%;
+    padding: .5rem .2rem;
+    }
+}
+
+.btn-filtri{
+    background-color: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+    white-space: normal;  /* Forza il testo ad andare a capo se non c'è spazio, invece di uscire */
+    word-wrap: break-word; 
+    padding: .5rem .2rem;
 }
 
 .btn-filtri:focus {
@@ -82,6 +97,12 @@
     font-size: 1.5rem;
     font-weight: bold;
     color: white;
+}
+
+@media (min-width: 768px) {
+    .filtri_text {
+        font-size: 1.5rem;
+    }
 }
 
 .sotto_filtri_text {
@@ -100,7 +121,6 @@
 }
 
 #ricette {
-    margin-top: 2rem;
     float: left;
     background-color: rgba(0, 0, 0, 0.6);
     border-radius: .5rem;
@@ -108,9 +128,19 @@
 }
 
 .ricette {
+    margin-top: 2rem;
     margin-left: 2rem;
     color: white;
 }
+
+@media (max-width: 576px) {
+        .ricette {
+        margin-top: .1rem;
+        margin-left: 2rem;
+        color: white;
+    }
+}
+
 
 #ricerca_fallita {
     height: 28rem;

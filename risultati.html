@@ -22,13 +22,22 @@
 
     <!--====================================================================================================================-->
 
-    <nav class="navbar menu" id="menu">
-        <a class="navbar-brand marchio">HTMeaL</a>
-        <a class="nav-link" href="index.html">Home</a>
-        <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
-        <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
-        <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
-    </nav>
+ <nav class="navbar navbar-expand-sm navbar-dark menu" id="menu">
+    <a class="navbar-brand marchio">HTMeaL</a>
+    
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse text-center" id="navbarNav">
+        <div class="navbar-nav ml-auto">
+            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
+            <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
+            <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
+        </div>
+    </div>
+</nav>
 
     <!--====================================================================================================================-->
     <div class="container text-center" id="ricerca-per-div">
@@ -46,13 +55,13 @@
 
 
     <!--FILTRI-->
-    <div id="accordion" class="col-3">
+    <div id="accordion" class="col-11 col-md-3">
 
         <div id="num_risultati"></div>
 
         <!--HEADER-->
         <div class="card" id="filtri">
-            <div class="card-header">
+            <div class="card-header"> <!-- QUAAAA I RISULTATI ESCONO DALLA TEXTBOX-->
                 <h5 class="mb-0">
                     <button class="btn collapsed btn-filtri filtri_text" data-toggle="collapse" data-target="#sotto_filtri"
                         aria-expanded="false" aria-controls="sotto_filtri">
@@ -199,14 +208,10 @@
     </div>
 
     <!--RICETTE-->
-    <div id="ricette" class="col-8 ricette"></div>
+    <div id="ricette" class="col-10 col-md-8 ricette"></div>
 
 
     <!--====================================================================================================================-->
-
-    <div class="end">
-        <button id="scroll_top">TOP</button>
-    </div>
 
     <!--====================================================================================================================-->
 
