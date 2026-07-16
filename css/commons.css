@@ -24,7 +24,7 @@ body {
     height: 5rem;
     margin-bottom: 2rem;
     background-color: rgba(0, 0, 0, .3);
-    transition: top 0.7s;
+    transition: top 0.5s;
 }
 
 .nav-link {
@@ -120,5 +120,43 @@ body {
     box-shadow: none;
     outline: none;
 }
+
+/* si applica solo su schermi piccoli*/
+@media (max-width: 576px) {
+    .navbar-collapse {
+        background-color: black; 
+        padding: 15px;             
+        border-radius: 8px;        
+        margin-top: 10px;          
+        margin-left: 50%;
+    }
+    
+    /* colore testo in tendina */
+    .navbar-collapse .nav-link {
+        color: white !important;
+        padding: 10px 0;
+    }
+    
+    /* colore testo attivo tendina */
+    .navbar-collapse .nav-link:hover,
+    .navbar-collapse .nav-link.active {
+        color: white;
+        border-bottom-color: white;
+    }
+}
+
+/* Lo sfondo e il bordo del pulsante hamburger */
+.navbar-toggler {
+    border: 3px solid white;  /* Colore del bordo */
+    padding: 6px 10px;
+}
+
+/* Cambiare il colore delle 3 linee interne (se non vuoi usare l'SVG di default) */
+.navbar-toggler-icon {
+    /* Questo trucco CSS (filter) cambia il colore dell'icona standard di Bootstrap.
+       Invert(1) la rende bianca. Puoi giocare con i filtri o sostituirla direttamente. */
+    filter: invert(0);
+}
+
 
 /*###########################################################################################################################*/

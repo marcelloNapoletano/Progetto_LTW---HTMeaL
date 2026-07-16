@@ -5,6 +5,7 @@
     background-attachment: fixed;
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 100%), url(../images/chisiamo.jpg);
     background-repeat: no-repeat;
+    color:white;
 }
 
 #info {
@@ -20,7 +21,7 @@
 
 #invio_ricette {
     margin-top: 2rem;
-    margin-bottom: 5rem;
+    margin-bottom: 2rem;
     background-color: rgba(0, 0, 0, .8);
     border-radius: .5rem;
     padding: 2rem;
