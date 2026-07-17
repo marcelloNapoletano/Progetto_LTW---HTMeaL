@@ -41,10 +41,11 @@ body {
     border-bottom-color: rgba(0, 0, 0, .25);
 }
 
+/*
 .menu .nav-link+.nav-link {
     margin-left: 1rem;
 }
-
+*/
 .menu .active {
     color: black;
     border-bottom-color: black;
