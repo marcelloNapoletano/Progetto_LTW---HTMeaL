@@ -36,9 +36,37 @@
             <a class="nav-link active" href="ingredienti.html">Cerca Per Ingredienti</a>
             <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
             <div>
-                <button class="login">
+                <div class="dropdown d-inline-block">
+                <button class="login dropdown-toggle" type="button" id="dropdownLogin" data-toggle="collapse" data-target="#menuLogin" aria-haspopup="true" aria-expanded="false">
                     <span class="login-label">Accedi</span>
                 </button>
+
+                    <div class="dropdown-menu dropdown-menu-right p-4" id="menuLogin" aria-labelledby="dropdownLogin">
+                        <form class="login-form">
+                            <div class="form-group mb-3">
+                                <label for="loginEmail" class="form-label text-dark">Email</label>
+                                <input type="email" class="form-control input-login" id="loginEmail" placeholder="email@esempio.com" required>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="loginPassword" class="form-label text-dark">Password</label>
+                                <input type="password" class="form-control input-login" id="loginPassword" placeholder="••••••••" required>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <button type="button" class="btn btn-outline-secondary btn-tendina" data-toggle="collapse" data-target="#menuLogin">
+                                    Indietro
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button type="submit" class="btn btn-dark btn-tendina">
+                                    Accedi
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <a class="login" href="registrati.html">
                     <span class="login-label">Registrati</span>
                 </a>

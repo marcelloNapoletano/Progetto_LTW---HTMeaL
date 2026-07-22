@@ -206,7 +206,7 @@ body {
     cursor: pointer;
     min-width: 120px;
     box-sizing: border-box;
-    vertical-align: middle;       /* Evita piccoli disallineamenti millimetrici tra i due elementi */
+    vertical-align: middle;       
 
     border:0;
     outline: none;
@@ -228,5 +228,80 @@ a.login:hover, a.login:focus, a.login:visited {
     justify-content: center;
 }
 
+/* Stile del pannello Dropdown Login */
+.dropdown-menu {
+    min-width: 280px;
+    background-color: rgba(20, 20, 20); /* Sfondo scuro trasparente elegante */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: .5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+/* Allineamento etichette interne */
+.login-form .form-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+/* Input specifici del form login per evitare conflitti con altre searchbar */
+.input-login {
+    opacity: 1 !important;
+    color: black !important;
+    border: 1px solid #ccc !important;
+}
+.input-login:focus {
+    border-color: #000 !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.dropdown-toggle::after, 
+.menu .dropdown-toggle::after,
+#menu .dropdown-toggle::after {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+}
+
+@media (max-width: 992px) {
+.navbar-collapse {
+        position: absolute;
+        top: 5rem;
+        right: 15px;
+        width: 280px;      
+        background-color: black; 
+        padding: 20px 15px;             
+        border-radius: 8px;   
+        margin-top: 5px;     
+        z-index: 10000;
+    }
+
+    .navbar-collapse .dropdown-menu {
+        position: static !important;
+        float: none;
+        width: 100%;
+        min-width: 100%;
+        box-shadow: none;
+        background-color: rgba(255, 255, 255, 0.08); /* Sfondo scuro trasparente elegante */
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-top: 10px;
+        margin-bottom: 25px; /* Spazio sotto per far respirare il tasto Registrati */
+        padding: 15px !important;
+        padding-bottom: 2.5rem !important; /* Spazio per il tasto sporgente */
+    }
+    
+    .navbar-collapse .login-form .form-label {
+        color: white !important; /* Su mobile lo sfondo è nero, quindi i testi del form diventano bianchi */
+    }
+}
+
+.btn-tendina{
+    width: 100%;
+    font-weight: bold;
+    color: white;
+}
 
 /*###########################################################################################################################*/
