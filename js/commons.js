@@ -29,4 +29,94 @@ $(document).ready(function () {
     });
 })
 
+// Controlla sessione
+document.addEventListener("DOMContentLoaded", function() {
+    checkUserSession();
+});
+
+function inviaLogin(e) {
+    e.preventDefault(); // Blocca il ricaricamento standard della pagina
+
+    const emailInput = document.getElementById('loginEmail').value;
+    const passwordInput = document.getElementById('loginPassword').value;
+
+    // Invia i dati a login.php via fetch (AJAX)
+    fetch('php/login.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            login_input: emailInput,
+            password: passwordInput
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Login riuscito! Aggiorna la navbar e chiudi la tendina
+            updateNavbarLoggedIn(data.user.nome);
+            $('#menuLogin').collapse('hide');
+        } else {
+
+            showToastError(data.message);
+        }
+    })
+    .catch(err => {
+        showToastError("Errore durante la connessione al server.");
+    });
+}
+
+//Verifica se l'utente è già loggato
+function checkUserSession() {
+    fetch('php/check_session.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.loggedIn) {
+                updateNavbarLoggedIn(data.nome);
+            }
+        })
+        .catch(err => console.log("Nessuna sessione attiva"));
+}
+
+//Modifica la Navbar via DOM (sostituisce Accedi/Registrati con il saluto)
+function updateNavbarLoggedIn(nome) {
+    const loginContainer = document.querySelector('#navbarNav .ml-auto > div');
+    if (loginContainer) {
+        loginContainer.innerHTML = `
+            <span class="nav-post-access">Ciao, <strong>${nome}</strong>!</span>
+            <button onclick="logout()" class="btn btn-dark login">
+                <span class="login-label">Esci</span>
+            </button>
+        `;
+    }
+}
+
+function logout() {
+    fetch('php/logout.php')
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload();
+            }
+        })
+        .catch(err => {
+            window.location.reload();
+        });
+}
+
+// Mostra errore
+function showToastError(msg) {
+    let toast = document.getElementById('login-error-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'login-error-toast';
+        toast.className = 'error-banner';
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = `<span>${msg}</span><button onclick="this.parentElement.remove()" class="close-btn">&times;</button>`;
+    
+    setTimeout(() => { 
+        if (toast) toast.remove(); 
+    }, 5000);
+}
+
 /*###########################################################################################################################*/

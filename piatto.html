@@ -42,7 +42,7 @@
                 </button>
 
                     <div class="dropdown-menu dropdown-menu-right p-4" id="menuLogin" aria-labelledby="dropdownLogin">
-                        <form class="login-form">
+                        <form class="login-form" onsubmit="inviaLogin(event)">
                             <div class="form-group mb-3">
                                 <label for="loginEmail" class="form-label text-light">Email</label>
                                 <input type="email" class="form-control input-login" id="loginEmail" placeholder="email@esempio.com" required>
@@ -67,7 +67,7 @@
                         </form>
                     </div>
                 </div>
-                <a class="login" href="registrati.html">
+                <a class="login" href="registrati.php">
                     <span class="login-label">Registrati</span>
                 </a>
             </div>

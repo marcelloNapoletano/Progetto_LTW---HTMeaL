@@ -81,6 +81,7 @@ function stampaRisultati(data) {
 
     $("#ricette").html("");
 
+    var ricette = {};
     ricette["nome"] = JSON.parse(data["nome"]);
     ricette["tipo_piatto"] = JSON.parse(data["tipo_piatto"]);
     ricette["ing_principale"] = JSON.parse(data["ing_principale"]);
@@ -88,6 +89,13 @@ function stampaRisultati(data) {
     ricette["note"] = JSON.parse(data["note"]);
     ricette["ingredienti"] = JSON.parse(data["ingredienti"]);
     ricette["preparazione"] = JSON.parse(data["preparazione"]);
+    
+    // Leggiamo l'autore (usando l'if classico per massima chiarezza)
+    if (data["autore_username"]) {
+        ricette["autore_username"] = JSON.parse(data["autore_username"]);
+    } else {
+        ricette["autore_username"] = [];
+    }
 
     var count = 0;
 
@@ -99,18 +107,36 @@ function stampaRisultati(data) {
         card.setAttribute("class", "card card-ricetta");
 
         var card_header = document.createElement("div");
-        card_header.setAttribute("class", "card-header");
+        card_header.setAttribute("class", "card-header d-flex justify-content-between align-items-center");
         card_header.setAttribute("id", i);
 
         var h6 = document.createElement("h6");
+        h6.setAttribute("class", "mb-0 w-100 d-flex justify-content-between align-items-center");
 
         var button = document.createElement("button");
-        button.setAttribute("class", "btn collapsed btn-filtri filtri_text");
+        button.setAttribute("class", "btn collapsed btn-filtri filtri_text text-center");
         button.setAttribute("data-toggle", "collapse");
         button.setAttribute("data-target", "#sotto" + i);
         button.setAttribute("aria-expanded", "false");
         button.setAttribute("aria-controls", "sotto" + i);
+        button.innerHTML = ricette["nome"][i];
 
+        // Determina l'autore
+        var autore = "HTMeal";
+        if (ricette["autore_username"] && ricette["autore_username"][i]) {
+            autore = ricette["autore_username"][i];
+        }
+
+        // Crea il badge per l'autore sulla destra del titolo
+        var badgeAutore = document.createElement("span");
+        badgeAutore.setAttribute("class", "badge badge-secondary p-2 ml-2");
+        badgeAutore.setAttribute("style", "font-size: 0.8em; font-weight: normal;");
+        badgeAutore.innerHTML = "di <strong>" + autore + "</strong>";
+
+        h6.appendChild(button);
+        h6.appendChild(badgeAutore);
+        card_header.appendChild(h6);
+        card.appendChild(card_header);
 
         var collapse = document.createElement("div");
         collapse.setAttribute("id", "sotto" + i);
@@ -121,11 +147,6 @@ function stampaRisultati(data) {
         var card_body = document.createElement("div");
         card_body.setAttribute("class", "card-body");
 
-        button.innerHTML = ricette["nome"][i];
-        h6.appendChild(button);
-        card_header.appendChild(h6);
-        card.appendChild(card_header);
-
         var ingredienti = ricette["ingredienti"][i].split('+');
         var tmp = "";
 
@@ -133,8 +154,12 @@ function stampaRisultati(data) {
             tmp = tmp + ingredienti[k] + "<br>";
         }
 
-        card_body.innerHTML = "Tipo piatto: " + ricette["tipo_piatto"][i] + "<br>" + "Persone: " + ricette["persone"][i] + "<br>" +
-            "Ingrediente Principale: " + ricette["ing_principale"][i] + "<br><br>" + tmp + "<br>" + ricette["preparazione"][i];
+        card_body.innerHTML = "Tipo piatto: " + ricette["tipo_piatto"][i] + "<br>" + 
+                             "Persone: " + ricette["persone"][i] + "<br>" +
+                             "Ingrediente Principale: " + ricette["ing_principale"][i] + "<br><br>" + 
+                             tmp + "<br>" + 
+                             ricette["preparazione"][i];
+
         collapse.appendChild(card_body);
         card.appendChild(collapse);
 

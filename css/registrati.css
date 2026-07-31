@@ -29,3 +29,17 @@
 .terms{
     color: cornflowerblue;
 }
+
+.err-reg {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #721c24; 
+    background-color: #f8d7da; 
+    border: 1px solid #f5c6cb; 
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    z-index: 10001;
+}
