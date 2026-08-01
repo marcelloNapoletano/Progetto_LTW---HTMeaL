@@ -33,6 +33,7 @@
             <a class="nav-link" href="index.html">Home</a>
             <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
             <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
+            <a class="nav-link d-none" id="navCondividi" href="condividi.php">Condividi Ricetta</a>
             <a class="nav-link active" href="chi_siamo.html">Chi Siamo</a>
             <div>
                 <div class="dropdown d-inline-block">
@@ -95,52 +96,6 @@
 
         CONTATTI<br>
         Per contattarci info@HTMeaL.it
-    </div>
-
-    <div class="container" id="invio_ricette">
-        <div id="form_ricetta" name="form_ricetta" class="form-group">
-            <h1 style="text-align: center;">Condividi con noi la tua ricetta!</h1>
-
-            <label for="nome">Nome Ricetta:</label>
-            <input id="nome" type="text" class="form-control" placeholder="Inserisci il nome della Ricetta...">
-
-            <label for="tipo_piatto">Tipo Piatto:</label>
-            <div>
-                <select id="tipo_piatto">
-                    <option value="none" selected>-- tipo piatto --</option>
-                    <option value="Antipasto">Antipasto</option>
-                    <option value="Primo">Primo</option>
-                    <option value="Salsa">Salsa</option>
-                    <option value="Carne">Carne</option>
-                    <option value="Pesce">Pesce</option>
-                    <option value="Pollame">Pollame</option>
-                    <option value="Contorno">Contorno</option>
-                    <option value="Dessert">Dessert</option>
-                    <option value="Bevande">Bevande</option>
-                </select>
-            </div>
-
-            <label for="ing_principale">Ingrediente Principale:</label>
-            <input id="ing_principale" type="text" class="form-control" placeholder="Inserisci l'ingrediente principale...">
-
-            <label for="persone">Persone:</label>
-            <input id="persone" type="text" class="form-control" placeholder="Inserisci il numero di persone...">
-
-            <label for="note">Note:</label>
-            <input id="note" type="text" class="form-control" placeholder="Inserisci eventuali note...">
-            
-            <label for="ingredienti">Ingredienti:</label>
-            <input id ="ingredienti" type="text" class="form-control" placeholder="Inserisci ingrediente..."><br>
-            <br>
-            
-            <label for="preparazione">Preparazione:</label>
-            <textarea id="preparazione" rows="15" class="form-control" placeholder="Inserisci la preparazione..."></textarea>
-
-            <div id="btn_container"><button id="invia" onclick="return validaForm()">Condividi!</button></div>
-        </div>
-
-        <div id="invio_result"></div>
-        <button id="back" class="button">back</button>
     </div>
 
     <!-- Bootstrap core JavaScript, JQuery and our scripts

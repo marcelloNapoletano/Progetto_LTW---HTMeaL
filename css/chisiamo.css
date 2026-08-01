@@ -8,7 +8,7 @@
 }
 
 #info {
-    margin-top: 6rem;
+    margin-top: 8rem;
     background-color: rgba(0, 0, 0, .8);
     border-radius: .5rem;
     padding: 2rem;
@@ -16,30 +16,6 @@
     text-align: center;
     font-size: 1.1rem;
     font-weight: bold;
-}
-
-#invio_ricette {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    background-color: rgba(0, 0, 0, .8);
-    border-radius: .5rem;
-    padding: 2rem;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-
-#ingredienti {
-    float: left;
-}
-
-#invia {
-    margin-top: 1rem;
-    background-color: rgba(0, 0, 0, 0.6);
-    border-radius: .25rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white;
 }
 
 #btn_container {

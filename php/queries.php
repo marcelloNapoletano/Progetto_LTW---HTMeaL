@@ -55,6 +55,8 @@ function ricercaPiatto() {
         $params[':iniziale'] = $filtri["iniziale"] . '%';
     }
 
+    $sql .= " ORDER BY r.nome ASC";
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
     $ricette = $stmt->fetchAll();
@@ -122,7 +124,7 @@ function getTutteLeRicette() {
     $sql = "SELECT r.*, COALESCE(u.username, 'HTMeal') AS autore_username
             FROM Ricette r
             LEFT JOIN utenti u ON r.id_autore = u.id
-            ORDER BY r.nome";
+            ORDER BY r.nome ASC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
@@ -135,7 +137,7 @@ function getRicetteUtente($idAutore) {
             FROM Ricette r
             LEFT JOIN utenti u ON r.id_autore = u.id
             WHERE r.id_autore = :id_autore
-            ORDER BY r.nome DESC";
+            ORDER BY r.nome ASC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([':id_autore' => $idAutore]);

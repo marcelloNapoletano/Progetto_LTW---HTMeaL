@@ -79,6 +79,11 @@ function checkUserSession() {
 
 //Modifica la Navbar via DOM (sostituisce Accedi/Registrati con il saluto)
 function updateNavbarLoggedIn(nome) {
+    const linkCondividi = document.getElementById('navCondividi');
+    if (linkCondividi) {
+        linkCondividi.classList.remove('d-none');
+    }
+
     const loginContainer = document.querySelector('#navbarNav .ml-auto > div');
     if (loginContainer) {
         loginContainer.innerHTML = `
@@ -95,7 +100,11 @@ function logout() {
         .then(res => res.json())
         .then(data => {
             if (data.success) {
-                window.location.reload();
+                if (window.location.pathname.includes("condividi.php")) {
+                    window.location.href = "index.html";
+                } else {
+                    window.location.reload();
+                }
             }
         })
         .catch(err => {

@@ -27,7 +27,7 @@ try {
     header('Content-Type: application/json');
     echo json_encode([
         'success' => false, 
-        'message' => 'Errore di connessione al database.' // Non mostriamo $e->getMessage() in produzione per sicurezza!
+        'message' => 'Errore di connessione al database.'.$e.getMessage()
     ]);
     exit;
 }

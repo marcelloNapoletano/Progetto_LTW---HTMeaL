@@ -1,27 +1,30 @@
-<!doctype <!DOCTYPE html>
+<?php
+session_start();
+
+// Controllo di sicurezza: se l'utente non è loggato, reindirizza alla home
+if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione che imposti al login
+    header("Location: index.html?error=non_autorizzato");
+    exit();
+}
+?>
+<!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
     <title>HTMeaL</title>
 
-    <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Our CSS -->
     <link href="css/commons.css" rel="stylesheet">
-    <link href="css/piatto.css" rel="stylesheet">
+    <link href="css/condividi.css" rel="stylesheet">
 </head>
 
-<body class="bg bg_body_piatto">
+<body class="bg bg_body_condividi">
 
-    <!--====================================================================================================================-->
-
+    <!--Menù-->
 <nav class="navbar navbar-expand-lg navbar-dark menu" id="menu">
     <a class="navbar-brand marchio">HTMeaL</a>
     
@@ -32,9 +35,9 @@
     <div class="collapse navbar-collapse text-center" id="navbarNav">
         <div class="navbar-nav ml-auto">
             <a class="nav-link" href="index.html">Home</a>
-            <a class="nav-link active" href="piatto.html">Cerca Per Piatto</a>
+            <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
             <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
-            <a class="nav-link d-none" id="navCondividi" href="condividi.php">Condividi Ricetta</a>
+            <a class="nav-link active d-none" id="navCondividi" href="condividi.php">Condividi Ricetta</a>
             <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
             <div>
                 <div class="dropdown d-inline-block">
@@ -75,47 +78,59 @@
         </div>
     </div>
 </nav>
+    <!-- Form per inviare la ricetta -->
 
-    <!--====================================================================================================================-->
+    <div class="container" id="invio_ricette">
+        <div id="form_ricetta" name="form_ricetta" class="form-group">
+            <h1 style="text-align: center;">Condividi con noi la tua ricetta!</h1>
 
-    <div class="container text-center" id="descrizione_div">
-        <div class="row">
-            <div class="col sotto_desc sotto_desc_piatto">
-                <h3 id="titolo_descrizione">SCEGLI IL PIATTO DA PREPARARE...</h3>
-                <p>Vuoi cucinare il tuo piatto preferito ma non sai come fare? Scrivi nella barra di ricerca e premi
-                    invio... </p>
+            <label for="nome">Nome Ricetta:</label>
+            <input id="nome" type="text" class="form-control" placeholder="Inserisci il nome della Ricetta...">
+
+            <label for="tipo_piatto">Tipo Piatto:</label>
+            <div>
+                <select id="tipo_piatto">
+                    <option value="none" selected>-- tipo piatto --</option>
+                    <option value="Antipasto">Antipasto</option>
+                    <option value="Primo">Primo</option>
+                    <option value="Salsa">Salsa</option>
+                    <option value="Carne">Carne</option>
+                    <option value="Pesce">Pesce</option>
+                    <option value="Pollame">Pollame</option>
+                    <option value="Contorno">Contorno</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Bevande">Bevande</option>
+                </select>
             </div>
-            <div class="col sotto_desc sotto_desc_piatto">
-                <h3 id="titolo_descrizione">...TROVA LA RICETTA...</h3>
-                <p>Hai tutto quello che ti serve per preparare il tuo piatto? Sei pronto a cominciare? </p>
-            </div>
-            <div class="col sotto_desc sotto_desc_piatto">
-                <h3 id="titolo_descrizione">...E DIVERTITI A CUCINARLA!</h3>
-                <p>Sei pronto a stupire i tuoi amici? Allora non ti resta che iniziare!</p>
-            </div>
+
+            <label for="ing_principale">Ingrediente Principale:</label>
+            <input id="ing_principale" type="text" class="form-control" placeholder="Inserisci l'ingrediente principale...">
+
+            <label for="persone">Persone:</label>
+            <input id="persone" type="text" class="form-control" placeholder="Inserisci il numero di persone...">
+
+            <label for="note">Note:</label>
+            <input id="note" type="text" class="form-control" placeholder="Inserisci eventuali note...">
+            
+            <label for="ingredienti">Ingredienti:</label>
+            <input id ="ingredienti" type="text" class="form-control" placeholder="Inserisci ingrediente..."><br>
+            <br>
+            
+            <label for="preparazione">Preparazione:</label>
+            <textarea id="preparazione" rows="15" class="form-control" placeholder="Inserisci la preparazione..."></textarea>
+
+            <div id="btn_container"><button id="invia" onclick="return validaForm()">Condividi!</button></div>
         </div>
+
+        <div id="invio_result"></div>
+        <button id="back" class="button">back</button>
     </div>
 
-    <!--====================================================================================================================-->
-<!--onsubmit="return validaRicerca()"-->
-    <div class="container">
-        <div class="form-group text-center">
-                <label class="search" for="searchBarPiatto">Cerca:</label>
-                <input type="text" class="form-control searchBar" id="searchBarPiatto" placeholder="Inserisci piatto...">
-                <button id="searchPiatto" class="btn col-3 go go_piatto">VAI!</button>
-        </div>
-    </div>
-
-    <!--====================================================================================================================-->
-
-    <!-- Bootstrap core JavaScript, JQuery and our scripts
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="assets/js/vendor/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" language="javascript" src="js/commons.js"></script>
-    <script type="text/javascript" language="javascript" src="js/piatto.js"></script>
+    <script src="js/commons.js"></script>
+    <script src="js/chisiamo.js"></script> 
 </body>
 
 </html>
