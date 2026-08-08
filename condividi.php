@@ -123,7 +123,7 @@ if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione
         </div>
 
         <div id="invio_result"></div>
-        <button id="back" class="button">back</button>
+        <button id="back" class="button back">Indietro</button>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

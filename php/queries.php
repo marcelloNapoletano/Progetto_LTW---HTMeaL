@@ -28,12 +28,12 @@ function ricercaPiatto() {
     $filtri = json_decode($_POST["filtri"], true) ?? [];
 
     // Query base con JOIN per leggere l'autore
-    $sql = "SELECT r.*, COALESCE(u.username, 'HTMeal') AS autore_username 
+    $sql = "SELECT r.*, COALESCE(u.username, 'HTMeaL') AS autore_username 
             FROM Ricette r 
             LEFT JOIN utenti u ON r.id_autore = u.id 
-            WHERE upper(r.nome) LIKE upper(:piatto)";
+            WHERE r.nome ~* ('\m' || :piatto || '\M')";
 
-    $params = [':piatto' => '%' . $piatto . '%'];
+    $params = [':piatto' =>  $piatto ];
 
     // Filtri dinamici con Prepared Statements
     if (!empty($filtri["tipo_piatto"])) {
@@ -69,7 +69,7 @@ function ricercaIngredienti() {
     $lista_ingredienti = json_decode($_POST["ingredienti"], true) ?? [];
     $filtri = json_decode($_POST["filtri"], true) ?? [];
 
-    $sql = "SELECT r.*, COALESCE(u.username, 'HTMeal') AS autore_username 
+    $sql = "SELECT r.*, COALESCE(u.username, 'HTMeaL') AS autore_username 
             FROM Ricette r 
             LEFT JOIN utenti u ON r.id_autore = u.id 
             WHERE 1=1";
@@ -79,8 +79,8 @@ function ricercaIngredienti() {
     // Filtro per ogni ingrediente
     foreach ($lista_ingredienti as $idx => $ingrediente) {
         $paramKey = ":ing_$idx";
-        $sql .= " AND upper(r.ingredienti) LIKE upper($paramKey)";
-        $params[$paramKey] = '%' . $ingrediente . '%';
+        $sql .= " AND r.ingredienti ~* $paramKey";
+        $params[$paramKey] = '\m' . preg_quote(trim($ingrediente), '/') . '\M';
     }
 
     // Filtri aggiuntivi
@@ -102,6 +102,8 @@ function ricercaIngredienti() {
         $sql .= " AND r.nome LIKE :iniziale";
         $params[':iniziale'] = $filtri["iniziale"] . '%';
     }
+
+    $sql .= " ORDER BY r.nome ASC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);

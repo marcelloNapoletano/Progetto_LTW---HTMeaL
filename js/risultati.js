@@ -197,9 +197,8 @@ $(document).ready(function () {
 
     //TIPO PIATTO
 
-    $("#tutti").on("change", function () {
+    $("#tutti").on("change", function (filtri) {
         if (this.checked) {
-            var filtri = JSON.parse(sessionStorage.getItem("filtri"));
             filtri["tipo_piatto"] = "";
             sessionStorage.setItem("filtri", JSON.stringify(filtri));
 
