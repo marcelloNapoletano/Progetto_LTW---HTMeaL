@@ -57,7 +57,7 @@ body {
 .marchio {
     top: 0;
     left: 0;
-    padding: 0rem 0 0 2rem;
+    margin-left: 2rem;
     font-size: 2rem;
     font-weight: bold;
     color: white !important;
@@ -311,5 +311,18 @@ a.login:hover, a.login:focus, a.login:visited {
     color: rgba(255, 255, 255, 1);
     background-color: transparent;
     display: inline-block;
+}
+
+.btn-star {
+    background: transparent;
+    border: none;
+    color: #ffc107;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-star:hover {
+    transform: scale(1.2);
 }
 /*###########################################################################################################################*/

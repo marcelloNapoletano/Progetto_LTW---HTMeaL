@@ -3,8 +3,6 @@
 var filtri_ = { "tipo_piatto": "", "persone": "", "iniziale": "" };
 var isNaviga = false;
 
-//READY
-
 $(document).ready(function () {
     $("body").fadeIn(1000);
 
@@ -16,18 +14,16 @@ $(document).ready(function () {
         caricaStatoDaUrlPiatto();
     };
 
-$("#searchPiatto").click(function () {
+    $("#searchPiatto").click(function () {
+        var valoreInput = $("#searchBarPiatto").val().trim();
+        if (valoreInput === "") {
+            window.alert("Errore: Inserire un piatto!");
+            $("#searchBarPiatto").val("");
+            return;
+        }
 
-    var valoreInput = $("#searchBarPiatto").val().trim();
-    if (valoreInput === "") {
-        window.alert("Errore: Inserire un piatto!");
-        $("#searchBarPiatto").val("");
-        return;
-    }
-
-filtri_ = { "tipo_piatto": "", "persone": "", "iniziale": "" };
-        
-    searchForPiatto();
+        filtri_ = { "tipo_piatto": "", "persone": "", "iniziale": "" };
+        searchForPiatto();
     });
 
     $("input[name='tp']").prop("checked", false);
@@ -56,6 +52,18 @@ filtri_ = { "tipo_piatto": "", "persone": "", "iniziale": "" };
         searchForPiatto();
     });
 
+    // Aggiorna l'hash dell'URL quando si apre/chiude una ricetta
+    $(document).on("click", ".btn-toggle-ricetta", function () {
+        var idRicetta = $(this).data("id");
+        var targetCollapse = $(this).attr("data-target");
+
+        if (!$(targetCollapse).hasClass("show")) {
+            history.replaceState(null, null, "#ricetta_" + idRicetta);
+        } else {
+            var cleanUrl = window.location.pathname + window.location.search;
+            history.replaceState(null, null, cleanUrl);
+        }
+    });
 });
 
 function searchForPiatto() {
@@ -63,15 +71,13 @@ function searchForPiatto() {
 
     var piatto = $("#searchBarPiatto").val() ? $("#searchBarPiatto").val().trim() : "";
     $("#searched").html(piatto.toUpperCase());
-    
+
     var parole = piatto.trim().split(" ");
     piatto = "";
-    for (i = 0; i < parole.length; i++) {   //modifica dovuta alla struttura del database
+    for (var i = 0; i < parole.length; i++) {
         if (i != parole.length - 1 && parole[i].length > 0) {
             piatto += parole[i].trim() + " ";
-            
-        }
-        else {
+        } else {
             piatto += parole[i].trim();
         }
     }
@@ -81,7 +87,7 @@ function searchForPiatto() {
         "action": "search-piatto",
         "piatto": piatto,
         "filtri": JSON.stringify(filtri_)
-    }
+    };
 
     $.ajax({
         type: "POST",
@@ -94,7 +100,7 @@ function searchForPiatto() {
             $("#accordion").removeClass("d-none").fadeIn();
             $("#ricette").removeClass("d-none").hide().fadeIn();
         },
-        error: function () {
+        error: function (xhr, status, error) {
             console.error("Errore AJAX:", error);
             alert("ERROR");
         }
@@ -102,10 +108,10 @@ function searchForPiatto() {
 }
 
 function stampaRisultati(data) {
-
     $("#ricette").html("");
 
     var ricette = {};
+    ricette["id"] = JSON.parse(data["id"]);
     ricette["nome"] = JSON.parse(data["nome"]);
     ricette["tipo_piatto"] = JSON.parse(data["tipo_piatto"]);
     ricette["ing_principale"] = JSON.parse(data["ing_principale"]);
@@ -113,36 +119,42 @@ function stampaRisultati(data) {
     ricette["note"] = JSON.parse(data["note"]);
     ricette["ingredienti"] = JSON.parse(data["ingredienti"]);
     ricette["preparazione"] = JSON.parse(data["preparazione"]);
-    
-    if (data["autore_username"]) {
-        ricette["autore_username"] = JSON.parse(data["autore_username"]);
-    } else {
-        ricette["autore_username"] = [];
-    }
+    ricette["autore_username"] = data["autore_username"] ? JSON.parse(data["autore_username"]) : [];
+    ricette["is_preferito"] = data["is_preferito"] ? JSON.parse(data["is_preferito"]) : [];
 
     var count = ricette.nome ? ricette.nome.length : 0;
 
     for (var i = 0; i < count; i++) {
+        var idRicetta = ricette.id[i];
+        var isPref = ricette.is_preferito[i];
+        var stellaClasse = isPref ? "fas fa-star" : "far fa-star";
+
         var autore = (ricette.autore_username && ricette.autore_username[i]) ? ricette.autore_username[i] : "HTMeaL";
         var ingredientiFormatted = ricette.ingredienti[i].split('+').join('<br>');
 
         var cardHtml = `
-            <div class="card card-ricetta mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center" id="heading${i}">
+            <div class="card card-ricetta mb-3" id="ricetta_${idRicetta}">
+                <div class="card-header d-flex justify-content-between align-items-center" id="heading_piatto_${i}">
                     <h6 class="mb-0 w-100 d-flex justify-content-between align-items-center">
-                        <button class="btn collapsed btn-filtri filtri_text text-left" 
+                        <button class="btn collapsed btn-filtri filtri_text text-left btn-toggle-ricetta" 
                                 data-toggle="collapse" 
-                                data-target="#sotto${i}" 
+                                data-target="#sotto_piatto_${i}" 
+                                data-id="${idRicetta}"
                                 aria-expanded="false" 
-                                aria-controls="sotto${i}">
+                                aria-controls="sotto_piatto_${i}">
                             ${ricette.nome[i]}
                         </button>
-                        <span class="badge badge-secondary p-2 ml-2" style="font-size: 0.8em; font-weight: normal;">
-                            di <strong>${autore}</strong>
-                        </span>
+                        <div class="d-flex align-items-center">
+                            <button class="btn-star" title="Aggiungi/Rimuovi preferito" onclick="togglePreferito(event, ${idRicetta}, this)">
+                                <i class="${stellaClasse}"></i>
+                            </button>
+                            <span class="badge badge-secondary p-2 ml-2" style="font-size: 0.8em; font-weight: normal;">
+                                di <strong>${autore}</strong>
+                            </span>
+                        </div>
                     </h6>
                 </div>
-                <div id="sotto${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#ricette">
+                <div id="sotto_piatto_${i}" class="collapse" aria-labelledby="heading_piatto_${i}" data-parent="#ricette">
                     <div class="card-body">
                         <strong>Tipo piatto:</strong> ${ricette.tipo_piatto[i]}<br>
                         <strong>Persone:</strong> ${ricette.persone[i]}<br>
@@ -158,24 +170,18 @@ function stampaRisultati(data) {
 
         $("#ricette").append(cardHtml);
     }
+
     if (count === 0) {
         $("#ricette").append('<div id="ricerca_fallita" class="alert alert-warning text-center">Ci dispiace ma la tua ricerca non ha prodotto alcun risultato!</div>');
     }
 
     $("#num_risultati").html(count + " risultati");
 
+    gestisciHashUrl();
 }
 
-$("input[name='tp']").on("change", function () {
-    if (this.checked) {
-        // Aggiorna l'oggetto globale filtri_ 
-        filtri_["tipo_piatto"] = $(this).val();
-        searchForPiatto();
-    }
-});
-
 function aggiornaUrlStatoPiatto() {
-    if(!isNaviga) {
+    if (!isNaviga) {
         var params = new URLSearchParams();
 
         var testoCercato = $("#searchBarPiatto").val().trim();
@@ -188,8 +194,8 @@ function aggiornaUrlStatoPiatto() {
         if (filtri_["persone"]) params.set("np", filtri_["persone"]);
         if (filtri_["iniziale"]) params.set("ini", filtri_["iniziale"]);
 
-        var newUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
-
+        var currentHash = window.location.hash;
+        var newUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "") + currentHash;
 
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
@@ -204,12 +210,11 @@ function caricaStatoDaUrlPiatto() {
     var np = params.get("np");
     var ini = params.get("ini");
 
-
     if (qParam) {
         var testo = decodeURIComponent(qParam.replace(/\+/g, ' '));
         $("#searchBarPiatto").val(testo);
     } else {
-        $("#searchBarPiatto").val(""); 
+        $("#searchBarPiatto").val("");
     }
 
     filtri_ = {
@@ -233,6 +238,26 @@ function caricaStatoDaUrlPiatto() {
         $("#accordion").addClass("d-none");
 
         isNaviga = false;
+    }
+}
+
+function gestisciHashUrl() {
+    var hash = window.location.hash; // Es: "#ricetta_12"
+
+    if (hash && $(hash).length > 0) {
+        var $cardTarget = $(hash);
+        var $btn = $cardTarget.find(".btn-toggle-ricetta");
+        var targetCollapse = $btn.attr("data-target");
+
+        // Apre il collapse Bootstrap
+        $(targetCollapse).collapse('show');
+
+        // Scroll
+        setTimeout(function () {
+            $('html, body').animate({
+                scrollTop: $cardTarget.offset().top - 30
+            }, 500);
+        }, 300);
     }
 }
 

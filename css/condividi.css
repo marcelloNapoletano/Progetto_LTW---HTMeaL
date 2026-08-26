@@ -29,6 +29,15 @@
     color: white;
 }
 
+.btn-add{
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: .25rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
 .back{
     margin-top: 1rem;
     background-color: rgba(0, 0, 0, 0.6);
@@ -40,4 +49,19 @@
 
 #btn_container {
     text-align: center;
+}
+
+.riga-ingrediente {
+    border-radius: 0.25rem;
+}
+
+.riga-ingrediente .font-weight-bold {
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+.rimuovi-ingrediente {
+    line-height: 1;
+    font-size: 1.2rem;
+    padding: 0.25rem 0.5rem;
 }

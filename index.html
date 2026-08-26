@@ -10,6 +10,7 @@
 
     <title>HTMeaL</title>
 
+    <link rel="icon" type="image/png" href="/images/logo.png">
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,7 +24,8 @@
     <!--====================================================================================================================-->
 
 <nav class="navbar navbar-expand-lg navbar-dark menu" id="menu">
-    <a class="navbar-brand marchio">HTMeaL</a>
+
+    <span class="navbar-brand marchio">HTMeaL</span>
     
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -35,6 +37,7 @@
             <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
             <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
             <a class="nav-link d-none" id="navCondividi" href="condividi.php">Condividi Ricetta</a>
+            <a class="nav-link d-none" id="navProfilo" href="profilo.php">Profilo</a>
             <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
             <div>
                 <div class="dropdown d-inline-block">
@@ -96,34 +99,34 @@
 
     <div class="container" id="random">
         <div class="row">
-            <div class="col classic" id="r1">
+            <div class="col classic" id="r1" data-index="0">
                 <img src="images/carbonara.jpg" class="classic_img" id="i1">
                 <h1 class="classic_text" id="h1"></h1>
                 <p class="classic_text" id="p1"></p>
             </div>
-            <div class="col classic" id="r2">
+            <div class="col classic" id="r2" data-index="1">
                 <img src="images/tiramisu.jpg" class="classic_img" id="i2">
                 <h1 class="classic_text" id="h2"></h1>
                 <p class="classic_text" id="p2"></p>
             </div>
-            <div class="col classic" id="r3">
+            <div class="col classic" id="r3" data-index="2">
                 <img src="images/lasagna.jpg" class="classic_img" id="i3">
                 <h1 class="classic_text" id="h3"></h1>
                 <p class="classic_text" id="p3"></p>
             </div>
         </div>
         <div class="row">
-            <div class="col classic" id="r4">
+            <div class="col classic" id="r4" data-index="3">
                 <img src="images/pizza.jpg" class="classic_img" id="i4">
                 <h1 class="classic_text" id="h4"></h1>
                 <p class="classic_text" id="p4"></p>
             </div>
-            <div class="col classic" id="r5">
+            <div class="col classic" id="r5" data-index="4">
                 <img src="images/polpette.jpeg" class="classic_img" id="i5">
                 <h1 class="classic_text" id="h5"></h1>
                 <p class="classic_text" id="p5"></p>
             </div>
-            <div class="col classic" id="r6">
+            <div class="col classic" id="r6" data-index="5">
                 <img src="images/risotto.jpg" class="classic_img" id="i6">
                 <h1 class="classic_text" id="h6"></h1>
                 <p class="classic_text" id="p6"></p>

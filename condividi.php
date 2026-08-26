@@ -17,6 +17,8 @@ if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione
 
     <title>HTMeaL</title>
 
+    <link rel="icon" type="image/png" href="/images/logo.png">
+
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/commons.css" rel="stylesheet">
     <link href="css/condividi.css" rel="stylesheet">
@@ -38,6 +40,7 @@ if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione
             <a class="nav-link" href="piatto.html">Cerca Per Piatto</a>
             <a class="nav-link" href="ingredienti.html">Cerca Per Ingredienti</a>
             <a class="nav-link active d-none" id="navCondividi" href="condividi.php">Condividi Ricetta</a>
+            <a class="nav-link d-none" id="navProfilo" href="profilo.php">Profilo</a>
             <a class="nav-link" href="chi_siamo.html">Chi Siamo</a>
             <div>
                 <div class="dropdown d-inline-block">
@@ -112,8 +115,13 @@ if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione
             <label for="note">Note:</label>
             <input id="note" type="text" class="form-control" placeholder="Inserisci eventuali note...">
             
-            <label for="ingredienti">Ingredienti:</label>
-            <input id ="ingredienti" type="text" class="form-control" placeholder="Inserisci ingrediente..."><br>
+            <label>Ingredienti:</label>
+            <div id="lista_ingredienti_container" class="mb-2">
+            </div>
+
+            <button type="button" class="btn btn-add mb-3" onclick="aggiungiRigaIngrediente()">
+                + Aggiungi Ingrediente
+            </button>
             <br>
             
             <label for="preparazione">Preparazione:</label>
@@ -130,7 +138,7 @@ if (!isset($_SESSION['utente_id'])) { // Usa il nome della variabile di sessione
     <script src="assets/js/vendor/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/commons.js"></script>
-    <script src="js/chisiamo.js"></script> 
+    <script src="js/condividi.js"></script> 
 </body>
 
 </html>

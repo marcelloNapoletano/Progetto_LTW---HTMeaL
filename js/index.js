@@ -1,5 +1,6 @@
 /*###########################################################################################################################*/
 
+var ricetteProcessate = [];
 //ESEGUE RICERCA PER RICETTE RANDOM PASSANDO PARAMETRI A PHP
 
 function searchAll() {
@@ -46,6 +47,8 @@ function stampaRisultati(data) {
     var tmp = "";
     var random_ricette = [];
 
+    ricetteProcessate = [];
+
     for (i = 1; i <= 6; i++) {
         ricetta = $("#r" + i);
         random = Math.floor(Math.random() * nomi.length);
@@ -58,8 +61,11 @@ function stampaRisultati(data) {
         for (k = 0; k < tmp_array.length; k++) {
             tmp_string = tmp_string + tmp_array[k] + "<br>";
         }
-        tmp_string = tmp_string + "Preparazione: " + preparazione[random];
-        random_ricette.push(tmp_string);
+        tmp_string = tmp_string + "<br>" + "Preparazione: " + "<br>" + preparazione[random];
+        ricetteProcessate.push({
+            nome: nomi[random],
+            dettagli: tmp_string
+        });
     }
 
     random_ricette = JSON.stringify(random_ricette);
@@ -81,96 +87,22 @@ $(document).ready(function () {
 
     $("body").fadeIn(1000);
 
-    //MOSTRA RICETTA RANDOM SCELTA CLICCANDO
+    $(".classic").on("click", function () {
+        var index = $(this).data("index");
 
-    $("#r1").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
+        if (ricetteProcessate[index]) {
+            $("#cover").hide();
+            $(".container").hide();
 
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h1").html());
-        $("#ricetta-random").html(tmp[0]);
+            $("#ricetta-random-nome").html(ricetteProcessate[index].nome);
+            $("#ricetta-random").html(ricetteProcessate[index].dettagli);
 
-        $(window).scrollTop();
+            $(window).scrollTop();
 
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
-    });
-
-    $("#r2").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
-
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h2").html());
-        $("#ricetta-random").html(tmp[1]);
-
-        $(window).scrollTop();
-
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
-    });
-
-    $("#r3").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
-
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h3").html());
-        $("#ricetta-random").html(tmp[2]);
-
-        $(window).scrollTop();
-
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
-    });
-
-    $("#r4").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
-
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h4").html());
-        $("#ricetta-random").html(tmp[3]);
-
-        $(window).scrollTop();
-
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
-    });
-
-    $("#r5").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
-
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h5").html());
-        $("#ricetta-random").html(tmp[4]);
-
-        $(window).scrollTop();
-
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
-    });
-
-    $("#r6").click(function () {
-        $("#cover").hide();
-        $(".container").hide();
-
-        var tmp = JSON.parse(sessionStorage.getItem("random_ricette"));
-        $("#ricetta-random-nome").html($("#h6").html());
-        $("#ricetta-random").html(tmp[5]);
-
-        $(window).scrollTop();
-
-        $("#close").fadeIn(500);
-        $("#ricetta-random-nome").fadeIn(500);
-        $("#ricetta-random").fadeIn(500);
+            $("#close").fadeIn(500);
+            $("#ricetta-random-nome").fadeIn(500);
+            $("#ricetta-random").fadeIn(500);
+        }
     });
 
     //CHIUDE RICETTA RANDOM E TORNA A HOME SENZA RICARICARE PAGINA

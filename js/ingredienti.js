@@ -35,7 +35,7 @@ function controlloSearchBarIngredienti(event) {
             
                 lista_ingredienti_.push(ingrediente);
 
-                //LISTA
+                // LISTA
                 var liHtml = `
                     <li class="li" data-ingrediente="${ingrediente}">
                         <label>${ingrediente}</label>
@@ -64,7 +64,6 @@ $(document).ready(function () {
         isNaviga = true;
         caricaStatoDaUrl();
     };
-    lista_ingredienti_ = [];
 
     // CLICK VAI
     $("#searchIngredienti").click(function (e) {
@@ -78,15 +77,15 @@ $(document).ready(function () {
             window.alert("Errore: Premere Invio per inserire un ingrediente!");
         }
         else {
-            
             filtri_ = { "tipo_piatto": "", "persone": "", "iniziale": "" };
             searchForIngredienti();
         }
+    });
 
     $("input[name='tp']").prop("checked", false);
     $("input[name='np']").prop("checked", false);
 
-    //FILTRO TIPO PIATTO
+    // FILTRO TIPO PIATTO
     $("input[name='tp']").on("change", function () {
         if (this.checked) {
             filtri_["tipo_piatto"] = $(this).val();
@@ -94,7 +93,7 @@ $(document).ready(function () {
         }
     });
 
-    //FILTRO NUMERO PERSONE
+    // FILTRO NUMERO PERSONE
     $("input[name='np']").on("change", function () {
         if (this.checked) {
             filtri_["persone"] = $(this).val();
@@ -102,13 +101,12 @@ $(document).ready(function () {
         }
     });
 
-    //FILTRO INIZIALE 
+    // FILTRO INIZIALE 
     $("#lettere").on("change", function () {
         var lettera = $(this).val();
         filtri_["iniziale"] = (lettera === "none") ? "" : lettera;
         searchForIngredienti();
     });
-});
 
     // RIMUOVE INGREDIENTE
     $(document).on("click", ".remove", function () {
@@ -122,6 +120,21 @@ $(document).ready(function () {
 
         if (lista_ingredienti_.length === 0) {
             $("#lista_scelte_div").empty();
+        }
+    });
+
+    // EVENTO: Aggiorna l'hash dell'URL quando si apre/chiude una ricetta
+    $(document).on("click", ".btn-toggle-ricetta", function () {
+        var idRicetta = $(this).data("id");
+        var targetCollapse = $(this).attr("data-target");
+
+        // Se la scheda sta per essere aperta
+        if (!$(targetCollapse).hasClass("show")) {
+            history.replaceState(null, null, "#ricetta_" + idRicetta);
+        } else {
+            // Se si sta chiudendo, rimuovi l'hash mantenendo i filtri nell'URL
+            var cleanUrl = window.location.pathname + window.location.search;
+            history.replaceState(null, null, cleanUrl);
         }
     });
 });
@@ -163,6 +176,7 @@ function stampaRisultati(data) {
     $("#ricette").empty();
 
     var ricette = {};
+    ricette["id"] = JSON.parse(data["id"]);
     ricette["nome"] = JSON.parse(data["nome"]);
     ricette["tipo_piatto"] = JSON.parse(data["tipo_piatto"]);
     ricette["ing_principale"] = JSON.parse(data["ing_principale"]);
@@ -170,36 +184,42 @@ function stampaRisultati(data) {
     ricette["note"] = JSON.parse(data["note"]);
     ricette["ingredienti"] = JSON.parse(data["ingredienti"]);
     ricette["preparazione"] = JSON.parse(data["preparazione"]);
-
-    if (data["autore_username"]) {
-        ricette["autore_username"] = JSON.parse(data["autore_username"]);
-    } else {
-        ricette["autore_username"] = [];
-    }
+    ricette["autore_username"] = data["autore_username"] ? JSON.parse(data["autore_username"]) : [];
+    ricette["is_preferito"] = data["is_preferito"] ? JSON.parse(data["is_preferito"]) : [];
 
     var count = ricette.nome ? ricette.nome.length : 0;
 
     for (var i = 0; i < count; i++) {
+        var idRicetta = ricette.id[i];
+        var isPref = ricette.is_preferito[i];
+        var stellaClasse = isPref ? "fas fa-star" : "far fa-star";
+
         var autore = (ricette.autore_username && ricette.autore_username[i]) ? ricette.autore_username[i] : "HTMeaL";
         var ingredientiFormatted = ricette.ingredienti[i].split('+').join('<br>');
 
         var cardHtml = `
-            <div class="card card-ricetta mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center" id="heading${i}">
+            <div class="card card-ricetta mb-3" id="ricetta_${idRicetta}">
+                <div class="card-header d-flex justify-content-between align-items-center" id="heading_ing_${i}">
                     <h6 class="mb-0 w-100 d-flex justify-content-between align-items-center">
-                        <button class="btn collapsed btn-filtri filtri_text text-left" 
+                        <button class="btn collapsed btn-filtri filtri_text text-left btn-toggle-ricetta" 
                                 data-toggle="collapse" 
-                                data-target="#sotto${i}" 
+                                data-target="#sotto_ing_${i}" 
+                                data-id="${idRicetta}"
                                 aria-expanded="false" 
-                                aria-controls="sotto${i}">
+                                aria-controls="sotto_ing_${i}">
                             ${ricette.nome[i]}
                         </button>
-                        <span class="badge badge-secondary p-2 ml-2" style="font-size: 0.8em; font-weight: normal;">
-                            di <strong>${autore}</strong>
-                        </span>
+                        <div class="d-flex align-items-center">
+                            <button class="btn-star" title="Aggiungi/Rimuovi preferito" onclick="togglePreferito(event, ${idRicetta}, this)">
+                                <i class="${stellaClasse}"></i>
+                            </button>
+                            <span class="badge badge-secondary p-2 ml-2" style="font-size: 0.8em; font-weight: normal;">
+                                di <strong>${autore}</strong>
+                            </span>
+                        </div>
                     </h6>
                 </div>
-                <div id="sotto${i}" class="collapse" aria-labelledby="heading${i}" data-parent="#ricette">
+                <div id="sotto_ing_${i}" class="collapse" aria-labelledby="heading_ing_${i}" data-parent="#ricette">
                     <div class="card-body">
                         <strong>Tipo piatto:</strong> ${ricette.tipo_piatto[i]}<br>
                         <strong>Persone:</strong> ${ricette.persone[i]}<br>
@@ -229,22 +249,26 @@ function stampaRisultati(data) {
     }
 
     $("#num_risultati").html(count + " risultati trovati");
+
+    // Scroll automatico ed espansione se presente l'hash nell'URL
+    gestisciHashUrl();
 }
 
 function aggiornaUrlStato() {
-    if(!isNaviga){
+    if (!isNaviga) {
         var params = new URLSearchParams();
 
         if (lista_ingredienti_.length > 0) {
-            params.set("ing", lista_ingredienti_.join(",")); //%2C
+            params.set("ing", lista_ingredienti_.join(","));
         }
 
         if (filtri_["tipo_piatto"]) params.set("tp", filtri_["tipo_piatto"]);
         if (filtri_["persone"]) params.set("np", filtri_["persone"]);
         if (filtri_["iniziale"]) params.set("ini", filtri_["iniziale"]);
 
-        // Costruisce l'URL
-        var newUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "");
+        // Preserva l'hash corrente se presente
+        var currentHash = window.location.hash;
+        var newUrl = window.location.pathname + (params.toString() ? "?" + params.toString() : "") + currentHash;
 
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
@@ -307,5 +331,26 @@ function caricaStatoDaUrl() {
         $("#accordion").addClass("d-none");
         
         isNaviga = false;
+    }
+}
+
+// FUNZIONE PER APRIRE E SCORRERE FINO ALLA RICETTA SPECIFICATA NELL'HASH
+function gestisciHashUrl() {
+    var hash = window.location.hash; // Es: "#ricetta_12"
+
+    if (hash && $(hash).length > 0) {
+        var $cardTarget = $(hash);
+        var $btn = $cardTarget.find(".btn-toggle-ricetta");
+        var targetCollapse = $btn.attr("data-target");
+
+        // Apre il collapse Bootstrap
+        $(targetCollapse).collapse('show');
+
+        // Scroll fluido verso la card target
+        setTimeout(function () {
+            $('html, body').animate({
+                scrollTop: $cardTarget.offset().top - 30
+            }, 500);
+        }, 300);
     }
 }

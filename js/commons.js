@@ -84,6 +84,11 @@ function updateNavbarLoggedIn(nome) {
         linkCondividi.classList.remove('d-none');
     }
 
+    const linkProfilo = document.getElementById('navProfilo');
+    if (linkProfilo) {
+        linkProfilo.classList.remove('d-none');
+    }
+
     const loginContainer = document.querySelector('#navbarNav .ml-auto > div');
     if (loginContainer) {
         loginContainer.innerHTML = `
@@ -126,6 +131,36 @@ function showToastError(msg) {
     setTimeout(() => { 
         if (toast) toast.remove(); 
     }, 5000);
+}
+
+function togglePreferito(event, idRicetta, elementoPulsante) {
+    event.stopPropagation();
+
+    $.ajax({
+        type: "POST",
+        dataType: "json",
+        url: "php/queries.php",
+        data: {
+            "action": "toggle-preferito",
+            "id_ricetta": idRicetta
+        },
+        success: function (response) {
+            if (response.status === 'success') {
+                var stella = $(elementoPulsante).find('i');
+                if (response.is_preferito) {
+                    stella.removeClass('far').addClass('fas'); // Stella piena
+                } else {
+                    stella.removeClass('fas').addClass('far'); // Stella vuota
+                }
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("Errore AJAX:", error);
+            alert("Devi effettuare l'accesso per aggiungere le ricette ai preferiti.");
+        }
+    });
 }
 
 /*###########################################################################################################################*/

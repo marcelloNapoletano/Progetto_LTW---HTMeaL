@@ -1,0 +1,112 @@
+.bg_body_profilo {
+    background-size: cover;
+    background-attachment: fixed;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.3) 100%), url(../images/cucina.jpg);
+    background-repeat: no-repeat;
+}
+
+#profiloContainer {
+    margin-top: 8rem;
+    margin-bottom: 2rem;
+    margin-left: 0 !important;
+    padding-left: 3rem;
+}
+
+.id_utenteCard {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 0.5rem;
+    padding: 2rem;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+}
+
+.id_utenteCard .text-muted {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.id_utenteCard hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.id_utenteCard .form-text {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.btn-profilo-salva {
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    border-radius: 0.25rem !important;
+    font-size: 1.5rem !important;
+    font-weight: bold !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-profilo-salva:hover,
+.btn-profilo-salva:focus {
+    background-color: black !important;
+    border-color: white !important;
+    color: white !important;
+}
+
+@media (max-width: 768px) {
+    #profiloContainer {
+        padding-left: 1rem !important;
+    }
+}
+
+@media (max-width: 992px) {
+    #profiloContainer {
+        margin-top: 6rem; 
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .scheda-profilo {
+        margin-left: 0 !important; 
+        width: 100%;               
+        padding: 1.5rem !important; 
+        margin-top: 1rem;
+    }
+
+    .btn-profilo-salva {
+        font-size: 1.25rem !important;
+    }
+}
+
+.ricette2 {
+    margin-top: 2rem;
+    color: white;
+}
+
+#profiloContainer #profiloTabs .nav-link {
+    border: none !important;
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    font-weight: 600;
+    padding: 14px 68px;
+    border-radius: 80px 80px 80px 80px;
+    transition: all 0.25s ease-in-out;
+}
+
+#profiloContainer #profiloTabs .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+#profiloContainer #profiloTabs {
+    border-bottom: none !important;
+}
+
+#profiloContainer #profiloTabs {
+    border-bottom: none !important;
+    gap: 15px;
+}
+
+
+#profiloContainer #profiloTabs .nav-item {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+}
+

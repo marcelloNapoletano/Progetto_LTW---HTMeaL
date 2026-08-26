@@ -29,6 +29,12 @@
     border-right: .25rem solid rgb(0, 0, 0);
     border-bottom: .25rem solid rgb(0, 0, 0);
     border-radius: .5rem;
+
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .classic:hover {
@@ -107,5 +113,30 @@
     font-size: 1.3rem;
 
 }
+@media (min-width: 768px) and (max-width: 992px) {
+    
+    #random {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 1.5rem; 
+        justify-items: center; 
+    }
 
+    #random .row {
+        display: contents; 
+    }
+
+    .classic {
+        width: 100%;
+        max-width: 20rem; 
+        margin: 0; 
+    }
+}
+
+@media (max-width: 767.98px) {
+    #random .row > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
 /*================================================================================================================================*/
