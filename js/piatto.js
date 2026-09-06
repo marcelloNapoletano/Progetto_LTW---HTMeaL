@@ -52,16 +52,17 @@ $(document).ready(function () {
         searchForPiatto();
     });
 
-    // Aggiorna l'hash dell'URL quando si apre/chiude una ricetta
-    $(document).on("click", ".btn-toggle-ricetta", function () {
-        var idRicetta = $(this).data("id");
-        var targetCollapse = $(this).attr("data-target");
+    $(document).on('shown.bs.collapse', '.card-ricetta .collapse', function () {
+    var idRicetta = $(this).closest('.card-ricetta').attr('id');
+    if (idRicetta) {
+        history.replaceState(null, null, '#' + idRicetta);
+        }
+    });
 
-        if (!$(targetCollapse).hasClass("show")) {
-            history.replaceState(null, null, "#ricetta_" + idRicetta);
-        } else {
-            var cleanUrl = window.location.pathname + window.location.search;
-            history.replaceState(null, null, cleanUrl);
+    $(document).on('hidden.bs.collapse', '.card-ricetta .collapse', function () {
+    if ($('.card-ricetta .collapse.show').length === 0) {
+        var cleanUrl = window.location.pathname + window.location.search;
+        history.replaceState(null, null, cleanUrl);
         }
     });
 });

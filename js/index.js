@@ -45,7 +45,6 @@ function stampaRisultati(data) {
     var random;
     var ricetta;
     var tmp = "";
-    var random_ricette = [];
 
     ricetteProcessate = [];
 
@@ -62,14 +61,12 @@ function stampaRisultati(data) {
             tmp_string = tmp_string + tmp_array[k] + "<br>";
         }
         tmp_string = tmp_string + "<br>" + "Preparazione: " + "<br>" + preparazione[random];
+        
         ricetteProcessate.push({
             nome: nomi[random],
             dettagli: tmp_string
         });
     }
-
-    random_ricette = JSON.stringify(random_ricette);
-    sessionStorage.setItem("random_ricette", random_ricette);
 }
 
 /*###########################################################################################################################*/

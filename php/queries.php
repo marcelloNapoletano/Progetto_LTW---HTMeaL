@@ -34,19 +34,18 @@ function ricercaPiatto() {
     $pdo = getDB();
     $piatto = $_POST["piatto"] ?? '';
     $filtri = json_decode($_POST["filtri"], true) ?? [];
-    $idUtente = $_SESSION['utente_id'] ?? 0; // 0 se non loggato
+    $idUtente = $_SESSION['utente_id'] ?? 0;
 
-    // Query con LEFT JOIN su utenti e preferiti
     $sql = "SELECT r.*, 
                    COALESCE(u.username, 'HTMeaL') AS autore_username,
                    CASE WHEN p.id_utente IS NOT NULL THEN true ELSE false END AS is_preferito
             FROM Ricette r 
             LEFT JOIN utenti u ON r.id_autore = u.id 
             LEFT JOIN preferiti p ON r.id = p.id_ricetta AND p.id_utente = :id_utente
-            WHERE r.nome ~* ('\m' || :piatto || '\M')";
+            WHERE r.nome ILIKE :piatto"; // <-- Usiamo ILIKE semplice
 
     $params = [
-        ':piatto' => $piatto,
+        ':piatto'   => '%' . trim($piatto) . '%', 
         ':id_utente' => $idUtente
     ];
 
@@ -56,7 +55,7 @@ function ricercaPiatto() {
     }
 
     if (!empty($filtri["persone"])) {
-        if ($filtri["persone"] == "10") {
+        if ($filtri["persone"] == "10" || $filtri["persone"] == "10+") {
             $sql .= " AND r.persone >= 10";
         } else {
             $sql .= " AND r.persone = :persone";
@@ -215,7 +214,6 @@ function ricercaRicetteUtente() {
     echo json_encode(formattaRispostaLegacy($ricette)); 
 }
 
-// NUOVA: Permette di recuperare solo le ricette preferite dell'utente (utile per il profilo)
 function ricercaPreferitiUtente() {
     if (!isset($_SESSION['utente_id'])) {
         echo json_encode(['error' => 'Non autorizzato']);
